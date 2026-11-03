@@ -1,0 +1,11 @@
+[package]
+name = "terminal-canonical-tests"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+# Standalone host workspace projecting the provider-owned private core module.
+[workspace]
+
+[lib]
+path = "lib.rs"
