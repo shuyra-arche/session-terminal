@@ -3,9 +3,10 @@
 Source: https://github.com/anreonyr/sqware.git
 Frozen source revision: `c96f4a4b5a6795fab899c95bf11c350c20ba2572`
 
-This initial provider snapshot owns Terminal API/client and their tests only.
-Terminal server, UART, UnitFile, Deployment and image remain in Source.
-Existing wire bytes, interface ID and public paths are preserved.
+This provider snapshot owns the Terminal API, client, server and pure unit
+declaration, plus their tests. Source retains composition lists, the selected
+Deployment and the UART device runtime. Existing wire bytes, interface ID and
+public paths are preserved.
 
 Original authors recorded by the source history:
 
@@ -50,3 +51,34 @@ splitting one data structure per file:
   unchanged from Source `programs/tests/device-api/lib.rs` and
   `programs/tests/terminal/lib.rs` (`stream_tests`). Source mixed-provider
   registry and canonical/server tests remain in Source.
+
+## Terminal server extraction
+
+Server, canonical input mode and unit declaration come from Source
+`f488db5538dc8dd8a530346d76e343708a3c5df0` (same history), built against the
+public UART SDK at `b690431496b0beaeb5fb7cafb42e60b4c8b38c9d`:
+
+- `programs/src/user/terminal/main.rs` → `server/src/run.rs` (startup) and
+  `server/src/main.rs` (`mold` entry).
+- `programs/src/user/terminal/adapt/{mod,run,frame,server,schedule}.rs` →
+  `server/src/adapt/`; `Frame`/`Counters` and `Server`/`Attachment`/
+  `Endpoints` are split one type per file, with method bodies, waits,
+  capacities, failure rollback and drop order unchanged.
+- `programs/src/user/terminal/core/{mod,canonical,mode}.rs` →
+  `server/src/core/`; `Mode`/`Effect`/`Input` are split one type per file and
+  `core::mode::{Input, Effect, ECHO_MAX}` / `core::canonical::{Canonical,
+  LINE_MAX}` paths are preserved by reexport.
+- `crates/composition/src/units/terminal.rs` → `declaration/src/lib.rs`;
+  `PROGRAM` becomes `UNIT`, `crate::unit` becomes the public `unit` crate and
+  `E_TERMINAL: Died = 24` is retained. The image `BUILD` targets
+  `server/Cargo.toml`, package `terminal-server`, binary `terminal`.
+- `programs/tests/terminal/lib.rs` → `tests/canonical/lib.rs`; the six cases are
+  unchanged and only the projected module path moves to
+  `../../server/src/core/mod.rs`.
+
+Only the ownership boundary paths changed: `programs::debug::put` →
+`system_support::debug::put`, `programs::unit::READY_MARK` → `unit::READY_MARK`,
+UART `Console`/`Bytes`/`MAX` → `uart_client`/`uart_api` at the published
+revision, and the UART pending capacity to `uart_api::frame::MAX`. Composition
+lists, Deployment selection and image design remain Source; this repository
+publishes no aggregate registry.

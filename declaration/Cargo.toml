@@ -1,0 +1,14 @@
+[package]
+name = "terminal-declaration"
+version.workspace = true
+edition.workspace = true
+publish = false
+
+[lib]
+test = false
+bench = false
+doctest = false
+
+[dependencies]
+unit = { git = "https://github.com/shuyra-arche/unit.git", rev = "90396f0fda376e0693fb1b9553aa21864d241057" }
+system-api = { git = "https://github.com/shuyra-arche/system.git", rev = "9e5d63ca536a176583cf1b0054b4ecf7ddd88257" }

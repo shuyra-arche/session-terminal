@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["api", "client"]
+members = ["api", "client", "declaration", "server"]
 # The host tests are separate workspaces, matching the other public providers.
 exclude = ["tests"]
 

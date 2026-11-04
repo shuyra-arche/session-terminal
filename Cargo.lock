@@ -42,6 +42,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "fdt"
+version = "0.1.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "784a4df722dc6267a04af36895398f59d21d07dce47232adf31ec0ff2fa45e67"
+
+[[package]]
+name = "hub-api"
+version = "0.1.0"
+source = "git+https://github.com/shuyra-arche/hub.git?rev=cccef3f325198c8390007ae88b064bae0f21f93e#cccef3f325198c8390007ae88b064bae0f21f93e"
+dependencies = [
+ "env",
+ "mold",
+ "system-api",
+ "wire",
+]
+
+[[package]]
 name = "ipc"
 version = "0.1.0"
 source = "git+https://github.com/shuyra-arche/ipc.git?rev=29ad97dc08d9dfc4ea6578b1b77874261229b3b5#29ad97dc08d9dfc4ea6578b1b77874261229b3b5"
@@ -98,6 +115,11 @@ dependencies = [
 ]
 
 [[package]]
+name = "schedule"
+version = "0.1.0"
+source = "git+https://github.com/shuyra-arche/schedule.git?rev=a806630061a1d939f31ad8c683d544d00a385854#a806630061a1d939f31ad8c683d544d00a385854"
+
+[[package]]
 name = "scopeguard"
 version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -147,6 +169,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "system-support"
+version = "0.1.0"
+source = "git+https://github.com/shuyra-arche/system.git?rev=5a792ff2d39901a970925b1a6d63206adf6c16d8#5a792ff2d39901a970925b1a6d63206adf6c16d8"
+dependencies = [
+ "env",
+ "execution",
+ "fdt",
+ "hub-api",
+ "resource",
+]
+
+[[package]]
 name = "talc"
 version = "5.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -166,6 +200,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "terminal-api"
+version = "0.1.0"
+source = "git+https://github.com/shuyra-arche/terminal.git?rev=c447c0761835339a39efdf2ddd8101ebf80db15a#c447c0761835339a39efdf2ddd8101ebf80db15a"
+dependencies = [
+ "env",
+ "mold",
+ "wire",
+]
+
+[[package]]
 name = "terminal-client"
 version = "0.1.0"
 dependencies = [
@@ -174,8 +218,57 @@ dependencies = [
  "resource",
  "system-api",
  "system-client",
- "terminal-api",
+ "terminal-api 0.1.0",
  "wire",
+]
+
+[[package]]
+name = "terminal-declaration"
+version = "0.1.0"
+dependencies = [
+ "system-api",
+ "unit",
+]
+
+[[package]]
+name = "terminal-server"
+version = "0.1.0"
+dependencies = [
+ "env",
+ "execution",
+ "ipc",
+ "mold",
+ "resource",
+ "schedule",
+ "system-api",
+ "system-client",
+ "system-support",
+ "terminal-api 0.1.0 (git+https://github.com/shuyra-arche/terminal.git?rev=c447c0761835339a39efdf2ddd8101ebf80db15a)",
+ "uart-api",
+ "uart-client",
+ "unit",
+ "wire",
+]
+
+[[package]]
+name = "uart-api"
+version = "0.1.0"
+source = "git+https://github.com/shuyra-arche/uart.git?rev=b690431496b0beaeb5fb7cafb42e60b4c8b38c9d#b690431496b0beaeb5fb7cafb42e60b4c8b38c9d"
+dependencies = [
+ "env",
+ "wire",
+]
+
+[[package]]
+name = "uart-client"
+version = "0.1.0"
+source = "git+https://github.com/shuyra-arche/uart.git?rev=b690431496b0beaeb5fb7cafb42e60b4c8b38c9d#b690431496b0beaeb5fb7cafb42e60b4c8b38c9d"
+dependencies = [
+ "env",
+ "ipc",
+ "system-api",
+ "system-client",
+ "uart-api",
 ]
 
 [[package]]
@@ -183,6 +276,15 @@ name = "unicode-ident"
 version = "1.0.27"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a2c754d6c33795a1c324727428e5a7dedb5b06195f9890bdbcba760d3e246563"
+
+[[package]]
+name = "unit"
+version = "0.1.0"
+source = "git+https://github.com/shuyra-arche/unit.git?rev=90396f0fda376e0693fb1b9553aa21864d241057#90396f0fda376e0693fb1b9553aa21864d241057"
+dependencies = [
+ "env",
+ "system-api",
+]
 
 [[package]]
 name = "wire"
