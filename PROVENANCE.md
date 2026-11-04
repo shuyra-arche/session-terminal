@@ -82,3 +82,49 @@ UART `Console`/`Bytes`/`MAX` → `uart_client`/`uart_api` at the published
 revision, and the UART pending capacity to `uart_api::frame::MAX`. Composition
 lists, Deployment selection and image design remain Source; this repository
 publishes no aggregate registry.
+
+## UART identity intake
+
+Terminal intake base: `f07a0954f65472e9a16e878e52c5f1d34146bc64`
+(`codex/terminal-server-extraction`). The Driver aggregate at
+`bb3427e179e87b640e0d51115a44544fae231252` selects UART provider
+`298bc8809f297f46bc7592aebc96540b7b492efc` under
+`https://github.com/shuyra-arche/driver-uart.git`.
+
+`server/Cargo.toml` now names both UART dependencies — `uart-api` and
+`uart-client` — from that one Git source and full revision:
+`git = "https://github.com/shuyra-arche/driver-uart.git"`,
+`rev = "298bc8809f297f46bc7592aebc96540b7b492efc"`. The `uart-client` crate in
+that repository resolves its `uart-api` through the same-repository `../api`
+path, so Terminal's UART API edge and the client's UART API edge reach one
+package identity. Terminal's own API/client identity remains
+`terminal.git@c447c0761835339a39efdf2ddd8101ebf80db15a`. No patch, replace,
+package alias, path overlay or URL redirect is used.
+
+The UART API/client file bytes were frozen at
+`b690431496b0beaeb5fb7cafb42e60b4c8b38c9d` and are unchanged at the selected
+revision. Identical bytes do not make identical Cargo identities: the old
+revision name above is the historical extraction identity recorded in
+"Terminal server extraction", and the selected revision names the packages
+Terminal now consumes. Cargo keys packages by name, source URL and revision, so
+the two revisions are two sources even where every `.rs` byte matches.
+
+The runtime, canonical input and declaration Rust files and the existing host
+tests are unmodified by the intake. `tests/uart-identity` is a new standalone
+probe whose three normal dependencies are the real integration roots
+(`server`, Driver-selected `uart-server`, `driver-cluster`); its `check.py`
+walks `metadata.resolve` nodes along normal/build edges and looks names and
+sources up in the package table. It checks the whole consumer closure, because
+the UART server and declaration are sibling roots of Terminal and Terminal does
+not depend on a device server. It requires exactly one `uart-api`,
+`uart-client`, `uart-server` and `uart-declaration` at the selected source and
+no `sqware`/`programs` source. `driver-shared` at Driver
+`e75b1e232f828666956fb7e02c61a7d84f13eb66` is its own accepted package reached
+through `uart-server` and is not part of this migration. Session PR #2 still
+pins Terminal at the intake base `f07a0954...`; its later product pin intake is
+separate work and is not changed here.
+
+The legacy check is an identity check, not a path check: a package named
+`sqware` or `programs`, or a Git source whose repository basename is `sqware` or
+`programs`, fails; an independent consumer that merely lives in a directory
+named `sqware` still has ordinary identities and passes.
