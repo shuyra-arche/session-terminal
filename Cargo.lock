@@ -253,7 +253,7 @@ dependencies = [
 [[package]]
 name = "uart-api"
 version = "0.1.0"
-source = "git+https://github.com/shuyra-arche/uart.git?rev=b690431496b0beaeb5fb7cafb42e60b4c8b38c9d#b690431496b0beaeb5fb7cafb42e60b4c8b38c9d"
+source = "git+https://github.com/shuyra-arche/driver-uart.git?rev=298bc8809f297f46bc7592aebc96540b7b492efc#298bc8809f297f46bc7592aebc96540b7b492efc"
 dependencies = [
  "env",
  "wire",
@@ -262,7 +262,7 @@ dependencies = [
 [[package]]
 name = "uart-client"
 version = "0.1.0"
-source = "git+https://github.com/shuyra-arche/uart.git?rev=b690431496b0beaeb5fb7cafb42e60b4c8b38c9d#b690431496b0beaeb5fb7cafb42e60b4c8b38c9d"
+source = "git+https://github.com/shuyra-arche/driver-uart.git?rev=298bc8809f297f46bc7592aebc96540b7b492efc#298bc8809f297f46bc7592aebc96540b7b492efc"
 dependencies = [
  "env",
  "ipc",

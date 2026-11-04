@@ -1,0 +1,21 @@
+[package]
+name = "terminal-uart-identity"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+# Standalone probe workspace. The three normal dependencies are the actual
+# integration roots: Terminal's own server, the Driver-selected UART server and
+# the Driver aggregate that selects the UART declaration. Cargo graphs them;
+# `check.py` asserts their source identities.
+[workspace]
+
+[lib]
+path = "lib.rs"
+test = false
+doctest = false
+
+[dependencies]
+terminal-server = { path = "../../server" }
+uart-server = { git = "https://github.com/shuyra-arche/driver-uart.git", rev = "298bc8809f297f46bc7592aebc96540b7b492efc" }
+driver-cluster = { git = "https://github.com/shuyra-arche/driver.git", rev = "bb3427e179e87b640e0d51115a44544fae231252" }
